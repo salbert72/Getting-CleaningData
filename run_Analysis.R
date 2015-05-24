@@ -42,12 +42,22 @@ MeanStdColumns <- function {
   ##read in the content of "Features.txt"
   features <- read.csv("../features.txt", sep = " ", header = FALSE)
   ## subset mTidyData keeping only the columns holding mean or std values
-  mTidyData <- subset(mTidyData, select = grep("std|mean", features[,2]))
+  mTidyData.sub <- subset(mTidyData, select = grep("std|mean", features[,2]))
 }
 
 
 AddColumnHeaders <- function {
-  
+  ##assigns the descriptions found in features data frame to the corresponding columns of the mTidyData
+  names(mTidyData.sub) <- c(grep("std|mean", features[,2], value= TRUE),"SubjectID")
+}
+
+CreateAvgDataSet <- function {
+  ## do an aggregate on all the measurement columns by SubjectID using <mean> function
+  aggregate(mTidyData.sub[,1:79], list(mTidyData.sub$SubjectID), mean)
+}
+
+WriteTabletoFile <- function {
+  write.table(mTidyData.sub,"TidyMeanData.txt", sep=",", row.names=FALSE)
 }
 
 run_analysis <- function(){
@@ -56,5 +66,6 @@ run_analysis <- function(){
   mergeTT()
   MeanStdColums()
   AddColumnHeaders()
-  ##CreateAvgDataSet()
+  CreateAvgDataSet()
+  WriteTableToFile()
 }
