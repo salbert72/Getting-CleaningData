@@ -22,7 +22,7 @@ Function name: MeanStdColumns
 - adds the description of the subset features as column headers
 
 Function name: CreateAvgbySubject
-
+- using <aggregate> by SubjectID to apply mean to each measurement columns
 
 Function name: WriteTabletoFile
 - needless to explain.
